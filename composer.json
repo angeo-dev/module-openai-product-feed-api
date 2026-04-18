@@ -1,0 +1,54 @@
+{
+    "name": "angeo/module-openai-product-feed-api",
+    "description": "Magento 2 REST API for OpenAI Agentic Commerce Protocol (ACP). Implements the full 6-endpoint ACP feed surface: feeds, products (with full pagination and configurable variants), and promotions. DB-persisted feeds, POST-based PATCH workaround for Magento compatibility.",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ievgenii Gryshkun",
+            "email": "info@angeo.dev",
+            "homepage": "https://angeo.dev"
+        }
+    ],
+    "keywords": [
+        "magento2",
+        "openai",
+        "chatgpt",
+        "agentic commerce",
+        "acp",
+        "product feed api",
+        "promotions api",
+        "angeo"
+    ],
+    "homepage": "https://angeo.dev",
+    "require": {
+        "php": ">=8.2",
+        "magento/framework": "*",
+        "magento/module-catalog": "*",
+        "magento/module-catalog-inventory": "*",
+        "magento/module-configurable-product": "*",
+        "magento/module-store": "*",
+        "magento/module-sales-rule": "*",
+        "magento/module-backend": "*",
+        "angeo/module-openai-product-feed": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "suggest": {
+        "angeo/module-aeo-audit": "Audit your full AEO + AI feed readiness.",
+        "angeo/module-llms-txt": "Generate llms.txt for AI content map."
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {
+            "Angeo\\OpenAiProductFeedApi\\": ""
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Angeo\\OpenAiProductFeedApi\\Test\\": "Test/"
+        }
+    }
+}

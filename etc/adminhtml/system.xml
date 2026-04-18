@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="angeo" translate="label" sortOrder="500">
+            <label>Angeo</label>
+        </tab>
+
+        <section id="angeo_feed_api"
+                 translate="label"
+                 sortOrder="200"
+                 showInDefault="1"
+                 showInWebsite="1"
+                 showInStore="1">
+            <label>Product Feed API</label>
+            <tab>angeo</tab>
+            <resource>Angeo_OpenAiProductFeedApi::config</resource>
+
+            <!-- ── General ──────────────────────────────────────────── -->
+            <group id="general"
+                   translate="label"
+                   sortOrder="10"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+                <label>General</label>
+
+                <field id="enabled"
+                       translate="label"
+                       type="select"
+                       sortOrder="10"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="target_country"
+                       translate="label comment"
+                       type="text"
+                       sortOrder="20"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Default Target Country</label>
+                    <comment>ISO 3166-1 alpha-2 code, e.g. US, DE, GB. Used when creating a feed without specifying a country.</comment>
+                </field>
+
+                <field id="utm_medium"
+                       translate="label comment"
+                       type="text"
+                       sortOrder="30"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>UTM Medium</label>
+                    <comment>Appended to all product URLs for ChatGPT click attribution. Default: feed</comment>
+                </field>
+
+                <field id="include_list_price"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="40"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Include List Price</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Include original price as list_price when a special price is active. Recommended per ACP best practices.</comment>
+                </field>
+
+                <field id="include_barcodes"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="50"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Include Barcodes</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Read EAN / UPC / GTIN / barcode product attributes and include in feed.</comment>
+                </field>
+            </group>
+
+            <!-- ── Seller ────────────────────────────────────────────── -->
+            <group id="seller"
+                   translate="label"
+                   sortOrder="20"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+                <label>Seller Information</label>
+                <comment>Displayed in ChatGPT product listing context and used for seller.links in the ACP response.</comment>
+
+                <field id="name"
+                       translate="label comment"
+                       type="text"
+                       sortOrder="10"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Seller Name</label>
+                    <comment>Your store or brand name. Defaults to Magento store name if empty.</comment>
+                </field>
+
+                <field id="terms_of_service_url"
+                       translate="label"
+                       type="text"
+                       sortOrder="20"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Terms of Service URL</label>
+                </field>
+
+                <field id="privacy_policy_url"
+                       translate="label"
+                       type="text"
+                       sortOrder="30"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Privacy Policy URL</label>
+                </field>
+
+                <field id="refund_policy_url"
+                       translate="label"
+                       type="text"
+                       sortOrder="40"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Refund Policy URL</label>
+                </field>
+
+                <field id="shipping_policy_url"
+                       translate="label"
+                       type="text"
+                       sortOrder="50"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Shipping Policy URL</label>
+                </field>
+
+                <field id="faq_url"
+                       translate="label"
+                       type="text"
+                       sortOrder="60"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>FAQ URL</label>
+                </field>
+            </group>
+
+        </section>
+    </system>
+</config>

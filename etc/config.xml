@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <angeo_feed_api>
+            <general>
+                <enabled>1</enabled>
+                <target_country>US</target_country>
+                <utm_medium>feed</utm_medium>
+                <include_list_price>1</include_list_price>
+                <include_barcodes>1</include_barcodes>
+            </general>
+            <seller>
+                <name></name>
+                <terms_of_service_url></terms_of_service_url>
+                <privacy_policy_url></privacy_policy_url>
+                <refund_policy_url></refund_policy_url>
+                <shipping_policy_url></shipping_policy_url>
+                <faq_url></faq_url>
+            </seller>
+        </angeo_feed_api>
+    </default>
+</config>

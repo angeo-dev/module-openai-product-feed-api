@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- ══════════════════════════════════════════
+         Interface → Implementation preferences
+    ══════════════════════════════════════════════ -->
+
+    <preference for="Angeo\OpenAiProductFeedApi\Api\ProductFeedInterface"
+                type="Angeo\OpenAiProductFeedApi\Model\Feed\FeedService"/>
+
+    <preference for="Angeo\OpenAiProductFeedApi\Api\ProductFeedProductsInterface"
+                type="Angeo\OpenAiProductFeedApi\Model\Product\ProductsService"/>
+
+    <preference for="Angeo\OpenAiProductFeedApi\Api\ProductFeedPromotionsInterface"
+                type="Angeo\OpenAiProductFeedApi\Model\Promotion\PromotionsService"/>
+
+</config>

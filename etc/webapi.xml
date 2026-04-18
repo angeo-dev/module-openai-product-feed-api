@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+    OpenAI Agentic Commerce Protocol (ACP) — Product Feed REST API
+    Base: /rest/V1/angeo/product_feeds
+
+    ── PATCH workaround ──────────────────────────────────────────────────────
+    Magento 2 REST framework does not support HTTP PATCH natively.
+    Upsert endpoints (products, promotions) are exposed via POST at /upsert paths.
+
+    OpenAI's ACP crawler calls PATCH /product_feeds/:id/products.
+    Bridge this with an nginx rewrite BEFORE the request reaches Magento:
+
+        # nginx — add inside your server {} block:
+        location ~ ^/rest/V1/angeo/product_feeds/[^/]+/products$ {
+            if ($request_method = PATCH) {
+                rewrite ^(.*)$ $1/upsert last;
+            }
+        }
+        location ~ ^/rest/V1/angeo/product_feeds/[^/]+/promotions$ {
+            if ($request_method = PATCH) {
+                rewrite ^(.*)$ $1/upsert last;
+            }
+        }
+
+    See README.md for Apache / Varnish equivalents.
+    ─────────────────────────────────────────────────────────────────────────
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- ══════════════════════════════════════════
+         FEEDS
+    ══════════════════════════════════════════════ -->
+
+    <!-- POST /product_feeds — Create a new feed -->
+    <route url="/V1/angeo/product_feeds" method="POST">
+        <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedInterface" method="create"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- GET /product_feeds — List all feeds -->
+    <route url="/V1/angeo/product_feeds" method="GET">
+        <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedInterface" method="list"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- GET /product_feeds/:feedId — Get feed metadata -->
+    <route url="/V1/angeo/product_feeds/:feedId" method="GET">
+        <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedInterface" method="get"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- ══════════════════════════════════════════
+         PRODUCTS
+    ══════════════════════════════════════════════ -->
+
+    <!-- GET /product_feeds/:feedId/products — Get products (paginated) -->
+    <route url="/V1/angeo/product_feeds/:feedId/products" method="GET">
+        <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedProductsInterface" method="getProducts"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- POST /product_feeds/:feedId/products/upsert — PATCH workaround -->
+    <route url="/V1/angeo/product_feeds/:feedId/products/upsert" method="POST">
+        <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedProductsInterface" method="upsertProducts"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- POST /product_feeds/:feedId/products/invalidate — Bust product cache -->
+    <route url="/V1/angeo/product_feeds/:feedId/products/invalidate" method="POST">
+        <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedProductsInterface" method="invalidateProducts"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- ══════════════════════════════════════════
+         PROMOTIONS
+    ══════════════════════════════════════════════ -->
+
+    <!-- GET /product_feeds/:feedId/promotions — Get promotions from SalesRules -->
+    <route url="/V1/angeo/product_feeds/:feedId/promotions" method="GET">
+        <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedPromotionsInterface" method="getPromotions"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- POST /product_feeds/:feedId/promotions/upsert — PATCH workaround -->
+    <route url="/V1/angeo/product_feeds/:feedId/promotions/upsert" method="POST">
+        <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedPromotionsInterface" method="upsertPromotions"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+</routes>

@@ -1,0 +1,19 @@
+{
+    "angeo_acp_feed": {
+        "column": {
+            "id": true,
+            "feed_id": true,
+            "target_country": true,
+            "store_id": true,
+            "updated_at": true,
+            "created_at": true
+        },
+        "index": {
+            "ANGEO_ACP_FEED_STORE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "ANGEO_ACP_FEED_FEED_ID": true
+        }
+    }
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="angeo_acp_feed" resource="default" engine="innodb" comment="Angeo ACP Product Feeds">
+
+        <column xsi:type="int"       name="id"             unsigned="true"  nullable="false" identity="true" comment="Auto-increment PK"/>
+        <column xsi:type="varchar"   name="feed_id"        length="64"      nullable="false"                 comment="ACP Feed ID (e.g. feed_a1b2c3d4)"/>
+        <column xsi:type="varchar"   name="target_country" length="2"       nullable="false" default="US"    comment="ISO 3166-1 alpha-2"/>
+        <column xsi:type="smallint"  name="store_id"       unsigned="true"  nullable="false" default="0"     comment="Magento Store ID (0 = default)"/>
+        <column xsi:type="timestamp" name="updated_at"     on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Last updated timestamp"/>
+        <column xsi:type="timestamp" name="created_at"                      nullable="false" default="CURRENT_TIMESTAMP" comment="Created timestamp"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+
+        <constraint xsi:type="unique" referenceId="ANGEO_ACP_FEED_FEED_ID">
+            <column name="feed_id"/>
+        </constraint>
+
+        <index referenceId="ANGEO_ACP_FEED_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+
+    </table>
+
+</schema>
