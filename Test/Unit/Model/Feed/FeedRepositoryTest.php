@@ -11,6 +11,7 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Math\Random;
+use Magento\Store\Api\StoreRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -20,6 +21,7 @@ class FeedRepositoryTest extends TestCase
     private AdapterInterface|MockObject     $connection;
     private ScopeConfigInterface|MockObject $scopeConfig;
     private Random|MockObject               $random;
+    private StoreRepositoryInterface|MockObject $storeRepository;
     private FeedRepository                  $repository;
 
     protected function setUp(): void
@@ -28,6 +30,7 @@ class FeedRepositoryTest extends TestCase
         $this->resourceConnection = $this->createMock(ResourceConnection::class);
         $this->scopeConfig        = $this->createMock(ScopeConfigInterface::class);
         $this->random             = $this->createMock(Random::class);
+        $this->storeRepository    = $this->createMock(StoreRepositoryInterface::class);
 
         $this->resourceConnection->method('getConnection')->willReturn($this->connection);
         $this->resourceConnection->method('getTableName')->willReturnArgument(0);
@@ -36,6 +39,7 @@ class FeedRepositoryTest extends TestCase
             $this->resourceConnection,
             $this->scopeConfig,
             $this->random,
+            $this->storeRepository,
         );
     }
 

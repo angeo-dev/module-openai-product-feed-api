@@ -1,8 +1,8 @@
 {
     "name": "angeo/module-openai-product-feed-api",
-    "description": "Magento 2 REST API for OpenAI Agentic Commerce Protocol (ACP). Implements the full 6-endpoint ACP feed surface: feeds, products (with full pagination and configurable variants), and promotions. DB-persisted feeds, POST-based PATCH workaround for Magento compatibility.",
+    "description": "Magento 2 REST API for the OpenAI Agentic Commerce Protocol (ACP). Implements the ACP feed API surface: feeds, paginated products with configurable variants, and SalesRule-sourced promotions. Bearer-token authenticated, DB-persisted feeds, PATCH-as-POST bridge for Magento compatibility.",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "license": "MIT",
     "authors": [
         {
@@ -19,11 +19,15 @@
         "acp",
         "product feed api",
         "promotions api",
+        "aeo",
         "angeo"
     ],
     "homepage": "https://angeo.dev",
+    "support": {
+        "email": "support@angeo.dev"
+    },
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "magento/framework": "*",
         "magento/module-catalog": "*",
         "magento/module-catalog-inventory": "*",
@@ -31,14 +35,15 @@
         "magento/module-store": "*",
         "magento/module-sales-rule": "*",
         "magento/module-backend": "*",
-        "angeo/module-openai-product-feed": "^1.0"
+        "angeo/module-openai-product-feed": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0"
     },
     "suggest": {
         "angeo/module-aeo-audit": "Audit your full AEO + AI feed readiness.",
-        "angeo/module-llms-txt": "Generate llms.txt for AI content map."
+        "angeo/module-llms-txt": "Generate llms.txt for AI content map.",
+        "angeo/module-mcp-server": "Expose read-only commerce tools over MCP."
     },
     "autoload": {
         "files": ["registration.php"],

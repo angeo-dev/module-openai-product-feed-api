@@ -23,6 +23,15 @@
         }
 
     See README.md for Apache / Varnish equivalents.
+
+    ── Authentication ────────────────────────────────────────────────────────
+    All routes require a bearer token with the
+    Angeo_OpenAiProductFeedApi::manage_feeds ACL resource, matching the ACP
+    requirement that requests carry `Authorization: Bearer <api_key>`.
+    Create a Magento Integration (System > Extensions > Integrations), grant
+    it this resource, activate it, and hand the Access Token to OpenAI as the
+    feed API key. See README.md for the step-by-step setup.
+    ─────────────────────────────────────────────────────────────────────────
     ─────────────────────────────────────────────────────────────────────────
 -->
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -36,7 +45,7 @@
     <route url="/V1/angeo/product_feeds" method="POST">
         <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedInterface" method="create"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Angeo_OpenAiProductFeedApi::manage_feeds"/>
         </resources>
     </route>
 
@@ -44,7 +53,7 @@
     <route url="/V1/angeo/product_feeds" method="GET">
         <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedInterface" method="list"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Angeo_OpenAiProductFeedApi::manage_feeds"/>
         </resources>
     </route>
 
@@ -52,7 +61,7 @@
     <route url="/V1/angeo/product_feeds/:feedId" method="GET">
         <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedInterface" method="get"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Angeo_OpenAiProductFeedApi::manage_feeds"/>
         </resources>
     </route>
 
@@ -64,7 +73,7 @@
     <route url="/V1/angeo/product_feeds/:feedId/products" method="GET">
         <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedProductsInterface" method="getProducts"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Angeo_OpenAiProductFeedApi::manage_feeds"/>
         </resources>
     </route>
 
@@ -72,7 +81,7 @@
     <route url="/V1/angeo/product_feeds/:feedId/products/upsert" method="POST">
         <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedProductsInterface" method="upsertProducts"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Angeo_OpenAiProductFeedApi::manage_feeds"/>
         </resources>
     </route>
 
@@ -80,7 +89,7 @@
     <route url="/V1/angeo/product_feeds/:feedId/products/invalidate" method="POST">
         <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedProductsInterface" method="invalidateProducts"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Angeo_OpenAiProductFeedApi::manage_feeds"/>
         </resources>
     </route>
 
@@ -92,7 +101,7 @@
     <route url="/V1/angeo/product_feeds/:feedId/promotions" method="GET">
         <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedPromotionsInterface" method="getPromotions"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Angeo_OpenAiProductFeedApi::manage_feeds"/>
         </resources>
     </route>
 
@@ -100,7 +109,7 @@
     <route url="/V1/angeo/product_feeds/:feedId/promotions/upsert" method="POST">
         <service class="Angeo\OpenAiProductFeedApi\Api\ProductFeedPromotionsInterface" method="upsertPromotions"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Angeo_OpenAiProductFeedApi::manage_feeds"/>
         </resources>
     </route>
 

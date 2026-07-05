@@ -1,48 +1,74 @@
 <?php
 
+/**
+ * @copyright Copyright (c) 2025 Ievgenii Gryshkun
+ * @author    Ievgenii Gryshkun <info@angeo.dev>
+ * @license   MIT
+ */
+
 declare(strict_types=1);
 
 namespace Angeo\OpenAiProductFeedApi\Model\Feed;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Math\Random;
+use Magento\Store\Api\StoreRepositoryInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
  * DB-persisted feed repository.
  *
- * Fixes v1 FeedRegistry which used Magento cache only — feeds were lost on cache flush.
- * Now stored in angeo_acp_feed table, survives cache flushes and server restarts.
- *
- * Cache is still used for product/promotion payload data (large, short-lived).
+ * Feeds are stored in the angeo_acp_feed table (declarative schema) and
+ * survive cache flushes and server restarts. Cache is only used for the
+ * large, short-lived product/promotion payload data.
  */
 class FeedRepository
 {
-    private const TABLE              = 'angeo_acp_feed';
-    private const CONFIG_COUNTRY     = 'angeo_feed_api/general/target_country';
-    private const ID_PREFIX          = 'feed_';
-    private const ID_RANDOM_LENGTH   = 12;
+    private const TABLE            = 'angeo_acp_feed';
+    private const CONFIG_COUNTRY   = 'angeo_feed_api/general/target_country';
+    private const ID_PREFIX        = 'feed_';
+    private const ID_RANDOM_LENGTH = 12;
 
     public function __construct(
-        private readonly ResourceConnection   $resourceConnection,
+        private readonly ResourceConnection $resourceConnection,
         private readonly ScopeConfigInterface $scopeConfig,
-        private readonly Random               $random,
+        private readonly Random $random,
+        private readonly StoreRepositoryInterface $storeRepository,
     ) {}
 
     /**
      * Create and persist a new feed record.
+     *
+     * @throws InputException When target country is not ISO 3166-1 alpha-2
+     * @throws NoSuchEntityException When the store ID does not exist
      */
     public function create(?string $targetCountry, ?int $storeId = 0): array
     {
-        $country  = strtoupper(
-            $targetCountry
-            ?? (string) $this->scopeConfig->getValue(self::CONFIG_COUNTRY, ScopeInterface::SCOPE_STORE)
-            ?: 'US'
+        $country = strtoupper(trim(
+            (string) ($targetCountry
+                ?? ((string) $this->scopeConfig->getValue(self::CONFIG_COUNTRY, ScopeInterface::SCOPE_STORE) ?: 'US'))
+        ));
+
+        if (!preg_match('/^[A-Z]{2}$/', $country)) {
+            throw new InputException(
+                __('target_country must be a two letter ISO 3166-1 alpha-2 code, "%1" given.', $country)
+            );
+        }
+
+        $storeId = $storeId ?? 0;
+
+        if ($storeId > 0) {
+            // Throws NoSuchEntityException for unknown stores.
+            $this->storeRepository->getById($storeId);
+        }
+
+        $feedId = self::ID_PREFIX . $this->random->getRandomString(
+            self::ID_RANDOM_LENGTH,
+            Random::CHARS_LOWERS . Random::CHARS_DIGITS
         );
-        $storeId  = $storeId ?? 0;
-        $feedId   = self::ID_PREFIX . $this->random->getRandomString(self::ID_RANDOM_LENGTH, Random::CHARS_LOWERS . Random::CHARS_DIGITS);
 
         $connection = $this->resourceConnection->getConnection();
         $table      = $this->resourceConnection->getTableName(self::TABLE);
@@ -102,7 +128,7 @@ class FeedRepository
         $connection = $this->resourceConnection->getConnection();
         $table      = $this->resourceConnection->getTableName(self::TABLE);
 
-        $connection->update($table, ['updated_at' => date('Y-m-d H:i:s')], ['feed_id = ?' => $feedId]);
+        $connection->update($table, ['updated_at' => gmdate('Y-m-d H:i:s')], ['feed_id = ?' => $feedId]);
     }
 
     /**

@@ -11,6 +11,7 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Store\Model\App\Emulation;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -23,6 +24,7 @@ class ProductsServiceTest extends TestCase
     private CacheInterface|MockObject      $cache;
     private SerializerInterface|MockObject $serializer;
     private LoggerInterface|MockObject     $logger;
+    private Emulation|MockObject             $emulation;
     private ProductsService                $service;
 
     protected function setUp(): void
@@ -32,6 +34,7 @@ class ProductsServiceTest extends TestCase
         $this->collectionFactory = $this->createMock(CollectionFactory::class);
         $this->cache             = $this->createMock(CacheInterface::class);
         $this->logger            = $this->createMock(LoggerInterface::class);
+        $this->emulation         = $this->createMock(Emulation::class);
 
         $this->serializer = $this->createMock(SerializerInterface::class);
         $this->serializer->method('serialize')->willReturnCallback(fn($v) => json_encode($v));
@@ -44,6 +47,7 @@ class ProductsServiceTest extends TestCase
             $this->cache,
             $this->serializer,
             $this->logger,
+            $this->emulation,
         );
     }
 
