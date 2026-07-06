@@ -2,7 +2,7 @@
     "name": "angeo/module-openai-product-feed-api",
     "description": "Magento 2 REST API for the OpenAI Agentic Commerce Protocol (ACP). Implements the ACP feed API surface: feeds, paginated products with configurable variants, and SalesRule-sourced promotions. Bearer-token authenticated, DB-persisted feeds, PATCH-as-POST bridge for Magento compatibility.",
     "type": "magento2-module",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "license": "MIT",
     "authors": [
         {
@@ -27,7 +27,7 @@
         "email": "support@angeo.dev"
     },
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.1",
         "magento/framework": "*",
         "magento/module-catalog": "*",
         "magento/module-catalog-inventory": "*",
@@ -46,7 +46,9 @@
         "angeo/module-mcp-server": "Expose read-only commerce tools over MCP."
     },
     "autoload": {
-        "files": ["registration.php"],
+        "files": [
+            "registration.php"
+        ],
         "psr-4": {
             "Angeo\\OpenAiProductFeedApi\\": ""
         }

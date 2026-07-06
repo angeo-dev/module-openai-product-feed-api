@@ -37,7 +37,7 @@ use Psr\Log\LoggerInterface;
  */
 class PromotionMapper
 {
-    private const array FREE_SHIPPING_VALUES = [
+    private const FREE_SHIPPING_VALUES = [
         RuleInterface::FREE_SHIPPING_MATCHING_ITEMS_ONLY,
         RuleInterface::FREE_SHIPPING_WITH_MATCHING_ITEMS,
         1, // legacy Model\Rule::FREE_SHIPPING_ITEM

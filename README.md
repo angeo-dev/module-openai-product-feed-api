@@ -15,7 +15,7 @@ Works together with [`angeo/module-openai-product-feed`](https://packagist.org/p
 
 ## Requirements
 
-- PHP >= 8.3
+- PHP >= 8.1
 - Magento 2.4.x (Open Source or Adobe Commerce)
 - `angeo/module-openai-product-feed` ^2.0
 

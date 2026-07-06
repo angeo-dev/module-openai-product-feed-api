@@ -2,6 +2,14 @@
 
 All notable changes to this module are documented in this file.
 
+## [2.0.1] - 2026-07-06
+
+### Changed
+
+- Lowered the PHP requirement from 8.3 to **8.1**, extending compatibility to
+  Magento 2.4.4+ environments. Typed class constants (a PHP 8.3-only syntax)
+  were replaced with untyped constants; no behavior changes.
+
 ## [2.0.0] - 2026-07-05
 
 ### Security
